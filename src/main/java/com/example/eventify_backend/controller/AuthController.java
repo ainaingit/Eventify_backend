@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -17,7 +19,10 @@ public class AuthController {
 
     // Point d'entrée pour l'enregistrement d'un utilisateur
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public ResponseEntity<String> register(@RequestBody Map<String, String> request) {
+        String username = request.get("username");
+        String password = request.get("password");
+
         System.out.println("tonga anaty authController");
         try {
             userService.registerUser(username, password);

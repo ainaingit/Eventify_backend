@@ -27,16 +27,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()  // Désactive la protection CSRF
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // Permet l'accès sans authentification
-                                .anyRequest().authenticated() // Authentifie toutes les autres requêtes
-                )
-                ; // Utilise HTTP Basic pour l'authentification basique
-
+                .csrf().disable() // Désactiver CSRF pour les API REST
+                .authorizeRequests()
+                .requestMatchers("/test", "/api/auth/login", "/api/auth/register").permitAll()  // Permet l'accès à /test sans authentification
+                .anyRequest().authenticated();   // Authentifie les autres requêtes
         return http.build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService() {
