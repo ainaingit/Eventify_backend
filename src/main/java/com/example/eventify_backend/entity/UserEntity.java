@@ -15,8 +15,23 @@ public class UserEntity {
     private String password;
     private String role; // Par exemple, "USER" ou "ADMIN"
 
-    // Getters et Setters
+    // Nouveau champ pour le numéro
+    private String number;
 
+    // Constructeur par défaut
+    public UserEntity() {
+    }
+
+    // Constructeur avec tous les attributs
+    public UserEntity(Long id, String username, String password, String role, String number) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.number = number;
+    }
+
+    // Getters et Setters pour id, username, password, role et number
 
     public Long getId() {
         return id;
@@ -50,13 +65,11 @@ public class UserEntity {
         this.role = role;
     }
 
-    public UserEntity() {
+    public String getNumber() {
+        return number;
     }
 
-    public UserEntity(Long id, String username, String password, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

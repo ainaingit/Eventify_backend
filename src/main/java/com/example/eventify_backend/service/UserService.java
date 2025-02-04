@@ -2,6 +2,7 @@ package com.example.eventify_backend.service;
 
 import com.example.eventify_backend.entity.UserEntity;
 import com.example.eventify_backend.repository.UserRepository;
+import com.example.eventify_backend.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,33 +13,68 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;  // Injecter l'utilitaire JWT
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    public boolean isValidPhoneNumber(String number) {
+        // Vérifier que le numéro n'est pas nul
+        if (number == null) {
+            return false;
+        }
+
+        // Vérifier que le numéro comporte exactement 10 chiffres
+        if (number.length() != 10) {
+            return false;
+        }
+
+        // Vérifier que le numéro commence par "034" ou "038"
+        if (!number.startsWith("034") && !number.startsWith("038")) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     // Méthode pour enregistrer un utilisateur
-    public UserEntity registerUser(String username, String password) {
-        // Vérifier si l'utilisateur existe déjà
-        System.out.println("tonga ato aantinle service registerUser");
+    public UserEntity registerUser(String username, String password,String numero) {
+
+        if(!isValidPhoneNumber(numero)){
+            new Exception("numero invalide") ;
+            return null ;
+        }
+
+        System.out.println("tonga ato anatin'ny service registerUser");
         if (userRepository.findByUsername(username).isPresent()) {
-            System.out.println("user ef amisy ");
+            System.out.println("L'utilisateur existe déjà");
             throw new IllegalArgumentException("Utilisateur déjà existant");
         }
 
-        // Crypter le mot de passe
         String encodedPassword = passwordEncoder.encode(password);
-
-        // Créer un nouvel utilisateur
         UserEntity newUser = new UserEntity();
         newUser.setUsername(username);
         newUser.setPassword(encodedPassword);
-        newUser.setRole("USER"); // Attribuer un rôle, ici "USER"
+        newUser.setRole("USER");
+        newUser.setNumber(numero);
 
-        // Sauvegarder l'utilisateur dans la base de données
         return userRepository.save(newUser);
     }
 
     // Méthode pour récupérer un utilisateur par son nom d'utilisateur
-    public UserEntity getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+    public UserEntity getUserByNumber(String numero) {
+        return userRepository.findByUsername(numero)
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+    }
+
+    // Méthode pour authentifier un utilisateur et générer un JWT
+    public String authenticateUser(String username, String rawPassword) {
+        UserEntity userEntity = getUserByNumber(username);
+        if (!passwordEncoder.matches(rawPassword, userEntity.getPassword())) {
+            throw new IllegalArgumentException("Mot de passe incorrect");
+        }
+        // Si la vérification réussit, génère et retourne le token JWT
+        return jwtUtil.generateToken(username);
     }
 }

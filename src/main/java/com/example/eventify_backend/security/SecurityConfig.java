@@ -4,7 +4,6 @@ import com.example.eventify_backend.entity.UserEntity;
 import com.example.eventify_backend.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,8 +36,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
-            UserEntity appUser = userService.getUserByUsername(username);
+        return numero -> {
+            UserEntity appUser = userService.getUserByNumber(numero);
             return org.springframework.security.core.userdetails.User.builder()
                     .username(appUser.getUsername())
                     .password(appUser.getPassword())
