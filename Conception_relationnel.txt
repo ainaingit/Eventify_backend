@@ -1,0 +1,82 @@
+           ┌────────────────┐
+           │    USERS       │
+           ├────────────────┤
+           │ id (PK)        │
+           │ name           │
+           │ email          │
+           │ password       │
+           │ role           │
+           └────────────────┘
+                   │1
+                   │
+                   │
+              (organise)
+                   │N
+           ┌────────────────┐
+           │    EVENTS      │
+           ├────────────────┤
+           │ id (PK)        │
+           │ title          │
+           │ description    │
+           │ dateTime       │
+           │ location       │
+           │ category_id (FK)────► (1) EVENT_CATEGORIES
+           │ organizer_id (FK)───► (1) USERS
+           └────────────────┘
+                   │1
+                   │
+                   │
+              (possède)
+                   │N
+           ┌────────────────────────┐
+           │   REGISTRATIONS        │
+           ├────────────────────────┤
+           │ id (PK)                │
+           │ registrationDate       │
+           │ ticketQRCode           │  <-- chaîne de caractères ou génération dynamique
+           │ user_id (FK) ──────────► (1) USERS
+           │ event_id (FK) ─────────► (1) EVENTS
+           └────────────────────────┘
+                   │1
+                   │
+                   │
+              (possède)
+                   │1
+           ┌────────────────┐
+           │   PAYMENTS     │
+           ├────────────────┤
+           │ id (PK)        │
+           │ amount         │
+           │ paymentDate    │
+           │ method         │
+           │ status         │
+           │ registration_id (FK) ──► (1) REGISTRATIONS
+           └────────────────┘
+                   
+           ┌────────────────┐
+           │  FEEDBACK      │
+           ├────────────────┤
+           │ id (PK)        │
+           │ rating         │
+           │ comment        │
+           │ event_id (FK)  ──► (1) EVENTS
+           │ user_id (FK)   ──► (1) USERS
+           └────────────────┘
+                   
+           ┌────────────────┐
+           │NOTIFICATIONS   │
+           ├────────────────┤
+           │ id (PK)        │
+           │ message        │
+           │ sentDate       │
+           │ readStatus     │
+           │ user_id (FK)   ──► (1) USERS
+           │ event_id (FK) (nullable) ──► (1) EVENTS
+           └────────────────┘
+
+           ┌────────────────────┐
+           │ EVENT_CATEGORIES   │
+           ├────────────────────┤
+           │ id (PK)            │
+           │ name               │
+           └────────────────────┘

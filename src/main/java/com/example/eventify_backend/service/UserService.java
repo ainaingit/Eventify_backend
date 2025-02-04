@@ -75,6 +75,6 @@ public class UserService {
             throw new IllegalArgumentException("Mot de passe incorrect");
         }
         // Si la vérification réussit, génère et retourne le token JWT
-        return jwtUtil.generateToken(username);
+        return jwtUtil.generateToken(userEntity.getNumber());
     }
 }
