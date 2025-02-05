@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,19 +22,29 @@ public class AuthController {
 
     // Point d'entrée pour l'enregistrement d'un utilisateur
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> request) {
         String username = request.get("username");
         String password = request.get("password");
         String numero = request.get("numero");
 
-        System.out.println("tonga anaty authController");
         try {
-            userService.registerUser(username, password,numero);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Utilisateur enregistré avec succès");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            // Appel du service pour enregistrer l'utilisateur
+            userService.registerUser(username, password, numero);
+
+            // Si l'enregistrement réussit, répondre avec succès
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Utilisateur enregistré avec succès");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            // Capturer l'exception et renvoyer un message d'erreur
+            System.out.println(e.getMessage());
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+
 
     // Endpoint pour le login, qui génère un token JWT
     @PostMapping("/login")

@@ -39,19 +39,22 @@ public class UserService {
 
 
     // Méthode pour enregistrer un utilisateur
-    public UserEntity registerUser(String username, String password,String numero) {
+    public UserEntity registerUser(String username, String password, String numero) {
 
-        if(!isValidPhoneNumber(numero)){
-            new Exception("numero invalide") ;
-            return null ;
+        // Vérifie si le numéro est valide
+        if (!isValidPhoneNumber(numero)) {
+            throw new IllegalArgumentException("Numero invalide");  // Lancer l'exception ici
         }
 
         System.out.println("tonga ato anatin'ny service registerUser");
+
+        // Vérifie si l'utilisateur existe déjà
         if (userRepository.findByUsername(username).isPresent()) {
             System.out.println("L'utilisateur existe déjà");
             throw new IllegalArgumentException("Utilisateur déjà existant");
         }
 
+        // Encrypter le mot de passe
         String encodedPassword = passwordEncoder.encode(password);
         UserEntity newUser = new UserEntity();
         newUser.setUsername(username);
@@ -59,8 +62,10 @@ public class UserService {
         newUser.setRole("USER");
         newUser.setNumber(numero);
 
+        // Sauver l'utilisateur dans la base de données
         return userRepository.save(newUser);
     }
+
 
     // Méthode pour récupérer un utilisateur par son nom d'utilisateur
     public UserEntity getUserByNumber(String numero) {
