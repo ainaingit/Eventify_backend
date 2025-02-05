@@ -36,4 +36,6 @@ public class EventCategory {
         this.setId(id);
         this.setName(name);
     }
+
+
 }

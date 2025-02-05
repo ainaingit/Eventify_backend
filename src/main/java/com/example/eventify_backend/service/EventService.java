@@ -16,7 +16,7 @@ public class EventService {
     public List<Event> findAll() {
         return eventRepository.findAll();
     }
-    public Optional<Event> findById(int id) {
-        return eventRepository.findById((long) id);
+    public Event create(Event event) {
+        return eventRepository.save(event);
     }
 }
