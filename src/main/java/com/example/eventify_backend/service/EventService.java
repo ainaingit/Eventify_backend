@@ -19,4 +19,8 @@ public class EventService {
     public Event create(Event event) {
         return eventRepository.save(event);
     }
+    // Méthode pour récupérer un événement par son ID
+    public Event getEventById(Long id) {
+        return eventRepository.findById(id).orElse(null); // Retourne null si l'événement n'existe pas
+    }
 }

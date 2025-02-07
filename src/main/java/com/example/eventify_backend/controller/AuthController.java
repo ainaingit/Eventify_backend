@@ -59,5 +59,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
+    // Endpoint de déconnexion
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        // Ici, on ne supprime pas réellement le token côté serveur, car le token est géré par le client.
+        // On envoie juste une réponse pour informer le client qu'il peut supprimer le token localement.
+        return ResponseEntity.ok("Déconnexion réussie. Supprimez le token localement.");
+    }
 }
 
