@@ -1,5 +1,6 @@
 package com.example.eventify_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +18,9 @@ public class EventImage {
     // Lien vers l'événement concerné
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
+    @JsonBackReference // Évite la sérialisation de l'Event dans chaque EventImage
     private Event event;
+
 
     // Getters et setters
 

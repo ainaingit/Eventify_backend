@@ -1,5 +1,6 @@
 package com.example.eventify_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -51,10 +52,11 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
 
-    // Liste des images associées à cet événement
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(max = 5)  // Bean validation : max 5 images
+    @JsonManagedReference // Indique que cette relation gère la sérialisation des EventImage
     private List<EventImage> images;
+
 
     // Getters et setters
 
