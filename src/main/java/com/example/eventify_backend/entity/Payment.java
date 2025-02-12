@@ -27,6 +27,6 @@ public class Payment {
 
     // Association à une inscription
     @OneToOne
-    @JoinColumn(name = "registration_id")
+    @JoinColumn(name = "registration_id", unique = true)
     private Registration registration;
 }

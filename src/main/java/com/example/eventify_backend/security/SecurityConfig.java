@@ -35,7 +35,7 @@ public class SecurityConfig {
                 // Autorise toutes les requêtes OPTIONS (préflight)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Autorise les endpoints publics
-                .requestMatchers("/error", "/test", "/api/auth/login", "/api/auth/register").permitAll()
+                .requestMatchers("/error", "/api/auth/login", "/api/auth/register").permitAll()
                 // Toutes les autres requêtes nécessitent une authentification
                 .anyRequest().authenticated()
                 .and()
