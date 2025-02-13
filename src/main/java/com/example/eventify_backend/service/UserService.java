@@ -69,8 +69,8 @@ public class UserService {
 
     // Méthode pour récupérer un utilisateur par son nom d'utilisateur
     public UserEntity getUserByNumber(String numero) {
-        return userRepository.findByUsername(numero);
-
+        return userRepository.findByUsername(numero)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
     public UserEntity findById(Long id) {
         return userRepository.findById(id)

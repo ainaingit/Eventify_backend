@@ -98,12 +98,13 @@ public class EventController {
 
             // Afficher l'objet event après avoir set les images
             System.out.println("Événement après set des images : " + event);
-            System.out.println();
-            event.setOrganizer((UserEntity) userRepository.findByUsername(numero_via_token));
+            // get user id by his tokeny nuermo
+            event.setOrganizer((UserEntity) userRepository.findByNumber(numero_via_token));
+
             // afficher l event
             event.showEvent();
             // Sauvegarder l'événement dans la base de données
-            // eventService.create(event);
+             eventService.create(event);
 
             return ResponseEntity.ok("Événement créé avec succès, images associées.");
         } catch (Exception e) {
