@@ -118,6 +118,7 @@ public class Event {
         this.category = category;
     }
 
+
     public UserEntity getOrganizer() {
         return organizer;
     }
@@ -157,6 +158,27 @@ public class Event {
     public void setImages(List<EventImage> images) {
         this.images = images;
     }
+
+    public void showEvent() {
+        System.out.println("ID: " + id);
+        System.out.println("Titre: " + title);
+        System.out.println("Description: " + description);
+        System.out.println("Date: " + date);
+        System.out.println("Lieu: " + location);
+        System.out.println("Max Participants: " + (maxParticipants != null ? maxParticipants : "Illimité"));
+        System.out.println("Catégorie: " + (category != null ? category.getId() : "Non spécifiée"));
+        System.out.println("Organisateur: " + (organizer != null ? organizer.getUsername() : "Non spécifié"));
+
+        if (images != null && !images.isEmpty()) {
+            System.out.println("Images:");
+            for (EventImage img : images) {
+                System.out.println(" - " + img.getImageUrl());  // Supposons que EventImage a une méthode getUrl()
+            }
+        } else {
+            System.out.println("Images: Aucune");
+        }
+    }
+
 
     /**
      * Méthode utilitaire pour vérifier le nombre actuel d'images.

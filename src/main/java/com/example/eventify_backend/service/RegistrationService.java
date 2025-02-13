@@ -16,6 +16,6 @@ public class RegistrationService {
         return registrationRepository.save(registration);
     }
     public List<Registration> findByUserId(Long userId) {
-        return registrationRepository.findByUSerId(userId) ;
+        return registrationRepository.findByUserId(userId) ;
     }
 }

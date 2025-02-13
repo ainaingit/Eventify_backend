@@ -2,7 +2,12 @@ package com.example.eventify_backend.controller;
 
 import com.example.eventify_backend.entity.Event;
 import com.example.eventify_backend.entity.EventImage;
+import com.example.eventify_backend.entity.UserEntity;
+import com.example.eventify_backend.repository.EventRepository;
+import com.example.eventify_backend.repository.UserRepository;
+import com.example.eventify_backend.security.JwtUtil;
 import com.example.eventify_backend.service.EventService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +23,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/client/events") // Utilise "/events" après "/client"
 public class EventController {
-
+    @Autowired
+    JwtUtil jwtUtil ;
     @Autowired
     private EventService eventService;
 
     @Value("${file.upload-dir}") // Injection de la valeur du répertoire depuis application.properties
     private String uploadDir;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     // Endpoint pour récupérer tous les événements
     @GetMapping
@@ -46,7 +56,14 @@ public class EventController {
     @PostMapping("/events-with-image")
     public ResponseEntity<String> createEventWithImages(
             @RequestPart("event") Event event,
-            @RequestPart("images") List<MultipartFile> images) {
+            @RequestPart("images") List<MultipartFile> images,
+            @RequestHeader("Authorization") String token) {
+        System.out.println("token " + token);
+        System.out.println(jwtUtil.extractEmail(jwtUtil.removeFirstSevenChars(token)) + "ito le izy ");
+
+        // Format String pour le numero vias le token dechiffrer
+        String numero_via_token = jwtUtil.extractEmail(jwtUtil.removeFirstSevenChars(token)) ;
+
         try {
             // 🔎 Vérifier que l'événement est valide
             if (event == null) {
@@ -57,12 +74,14 @@ public class EventController {
             Path uploadPath = Paths.get(uploadDir); // Utilisation du chemin dynamique
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
+
             }
 
             // 📂 Créer une liste d'images (mais ne les sauvegarde pas encore)
             List<EventImage> eventImages = new ArrayList<>();
 
             // 🚀 Traiter et sauvegarder chaque image associée à l'événement
+
             for (MultipartFile file : images) {
                 if (!file.isEmpty()) {
                     String filename = saveAndFormatImage(file, uploadPath); // Sauvegarder et reformater l'image
@@ -79,9 +98,12 @@ public class EventController {
 
             // Afficher l'objet event après avoir set les images
             System.out.println("Événement après set des images : " + event);
-
+            System.out.println();
+            event.setOrganizer((UserEntity) userRepository.findByUsername(numero_via_token));
+            // afficher l event
+            event.showEvent();
             // Sauvegarder l'événement dans la base de données
-            eventService.create(event);
+            // eventService.create(event);
 
             return ResponseEntity.ok("Événement créé avec succès, images associées.");
         } catch (Exception e) {

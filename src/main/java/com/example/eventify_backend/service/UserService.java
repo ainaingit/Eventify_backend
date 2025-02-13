@@ -49,7 +49,7 @@ public class UserService {
         System.out.println("tonga ato anatin'ny service registerUser");
 
         // Vérifie si l'utilisateur existe déjà
-        if (userRepository.findByUsername(username).isPresent()) {
+        if (userRepository.findByUsername(username)==null) {
             System.out.println("L'utilisateur existe déjà");
             throw new IllegalArgumentException("Utilisateur déjà existant");
         }
@@ -69,9 +69,14 @@ public class UserService {
 
     // Méthode pour récupérer un utilisateur par son nom d'utilisateur
     public UserEntity getUserByNumber(String numero) {
-        return userRepository.findByUsername(numero)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        return userRepository.findByUsername(numero);
+
     }
+    public UserEntity findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé pour l'ID : " + id));
+    }
+
 
     // Méthode pour authentifier un utilisateur et générer un JWT
     public String authenticateUser(String username, String rawPassword) {

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -51,4 +52,14 @@ public class JwtUtil {
                 .getPayload();
         return claims.getSubject(); // ✅ Récupération du subject
     }
+    public String removeFirstSevenChars(String input) {
+        if (input != null && input.length() > 7) {
+            return input.substring(7); // Retourne la chaîne après les 7 premiers caractères
+        } else {
+            // Si la chaîne est trop courte ou null, renvoyer un message ou null
+            return "";
+        }
+    }
+
+
 }

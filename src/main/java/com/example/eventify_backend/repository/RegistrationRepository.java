@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
-    public List<Registration> findByUSerId(Long id);
+    public List<Registration> findByUserId(Long id);
 }
