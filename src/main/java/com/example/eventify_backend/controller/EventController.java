@@ -98,7 +98,7 @@ public class EventController {
 
             // Afficher l'objet event après avoir set les images
             System.out.println("Événement après set des images : " + event);
-            // get user id by his tokeny nuermo
+            // get user id by his tokeny numéro
             event.setOrganizer((UserEntity) userRepository.findByNumber(numero_via_token));
 
             // afficher l event

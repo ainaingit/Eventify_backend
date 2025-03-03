@@ -3,9 +3,7 @@ package com.example.eventify_backend.controller;
 import com.example.eventify_backend.entity.EventCategory;
 import com.example.eventify_backend.service.EventCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,5 +16,10 @@ public class EventCategoryController {
     @GetMapping
     public List<EventCategory> findAll() {
         return eventCategoryService.findAll();
+    }
+
+    @PostMapping
+    public String save(@RequestBody EventCategory eventCategory) {
+        return "mety" ;
     }
 }
