@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     public Payment getPaymentById(Long Id);
-    public Payment getPaymentByPaymentId(Long Id);
-    public Payment getPaymentByUserId(Long Id);
 }
