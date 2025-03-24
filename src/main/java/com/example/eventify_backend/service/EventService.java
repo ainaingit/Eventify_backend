@@ -22,4 +22,17 @@ public class EventService {
     public Event getEventById(Long id) {
         return eventRepository.findById(id).orElse(null); // Retourne null si l'événement n'existe pas
     }
+
+    public String delete(Long id) {
+        try {
+            if (!eventRepository.existsById(id)) {
+                return "Event with ID " + id + " does not exist.";
+            }
+            eventRepository.deleteById(id);
+            return "Event deleted successfully with ID: " + id;
+        } catch (Exception e) {
+            return "Error deleting event with ID " + id + ": " + e.getMessage();
+        }
+    }
+
 }
