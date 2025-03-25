@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
     public List<Registration> findByUserId(Long id);
+
+    public List<Registration> findByEventId(Long id);
 }

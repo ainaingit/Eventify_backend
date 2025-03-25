@@ -2,11 +2,13 @@ package com.example.eventify_backend.controller;
 
 import com.example.eventify_backend.entity.Event;
 import com.example.eventify_backend.entity.EventImage;
+import com.example.eventify_backend.entity.Registration;
 import com.example.eventify_backend.entity.UserEntity;
 import com.example.eventify_backend.repository.EventRepository;
 import com.example.eventify_backend.repository.UserRepository;
 import com.example.eventify_backend.security.JwtUtil;
 import com.example.eventify_backend.service.EventService;
+import com.example.eventify_backend.service.RegistrationService;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,8 @@ public class EventController {
     private EventRepository eventRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RegistrationService registrationService;
 
     // Endpoint pour récupérer tous les événements
     @GetMapping
@@ -140,5 +144,10 @@ public class EventController {
     @PostMapping("/")
     public void dropEvent(@RequestBody Event event) {
         eventService.delete(event.getId());
+    }
+
+    @GetMapping("/{id}/participants")
+    public List<Registration> allParticipants(@PathVariable Long id) {
+        return registrationService.findByEventId(id);
     }
 }
