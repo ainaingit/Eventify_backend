@@ -18,5 +18,5 @@ public class RegistrationService {
     public List<Registration> findByUserId(Long userId) {
         return registrationRepository.findByUserId(userId) ;
     }
-    public List<Registration> findByEventId(Long participantId) {return registrationRepository.findByEventId(participantId);}
+    public List<Registration> findByEventId(Long eventId) {return registrationRepository.findByEventId(eventId);}
 }
