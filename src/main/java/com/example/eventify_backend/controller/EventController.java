@@ -141,7 +141,7 @@ public class EventController {
 
         return ResponseEntity.ok(event); // Retourne l'événement avec un statut 200
     }
-    @PostMapping("/")
+    @PostMapping("/delete")
     public void dropEvent(@RequestBody Event event) {
         eventService.delete(event.getId());
     }
