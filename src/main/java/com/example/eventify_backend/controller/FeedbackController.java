@@ -15,4 +15,10 @@ public class FeedbackController {
         feedbackService.save(feedback);
        return ResponseEntity.ok().body(" donnee enregistrer " + feedback.toString());
     }
+
+    public ResponseEntity<String> deleteFeedback(Feedback feedback) {
+        feedbackService.delete(feedback);
+        return ResponseEntity.ok().body(" feedback  supprimer " + feedback.toString());
+    }
+
 }

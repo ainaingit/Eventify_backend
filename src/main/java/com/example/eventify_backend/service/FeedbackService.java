@@ -12,9 +12,8 @@ public class FeedbackService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
-    public void save(Feedback feedback) {
-        feedbackRepository.save(feedback);
-    }
+    public void save(Feedback feedback) {feedbackRepository.save(feedback);}
+    public void delete(Feedback feedback) {feedbackRepository.delete(feedback);}
     public List<Feedback> findByEventId(Long eventId) {
        return  feedbackRepository.findByEventId(eventId) ;
     }
